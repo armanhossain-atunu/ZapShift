@@ -6,10 +6,10 @@ const ReviewCard = ({ review }) => {
     return (
         <div className="max-w-sm bg-base-100 shadow-lg rounded-xl p-6 border border-gray-200">
             {/* Quote Icon */}
-            <FaQuoteLeft className="text-primary text-2xl mb-4 opacity-70" />
+            <FaQuoteLeft className="text-primary text-2xl mb-4" />
 
             {/* Review Text */}
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="mb-4">
                 {testimonial}
             </p>
 
