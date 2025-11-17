@@ -29,7 +29,7 @@ const Support = () => {
       </div>
       <div className="flex items-center gap-7 px-5 py-3 bg-base-200 my-10 rounded-xl">
         <div>
-            <img src="https://i.ibb.co.com/cS59YbPJ/live-tracking.png" alt="" />
+            <img src="https://i.ibb.co/xtrYmrs8/safe-delivery.png" alt="" />
         </div>
         <p className="border h-40  border-dashed "></p>
         <div>
