@@ -1,15 +1,71 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
+import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const SendParcel = () => {
+  const data = useLoaderData();
   const {
     register,
     handleSubmit,
+    control,
     // formState: { errors },
   } = useForm();
+  const axiosSecure = useAxiosSecure();
+  const regionsDuplicate = data.map((c) => c.region);
+  const regions = [...new Set(regionsDuplicate)];
+
+  const senderRegions = useWatch({ control, name: "senderRegions" });
+  const ReceiverRegions = useWatch({ control, name: "ReceiverRegions" });
+  const districtByRegions = (region) => {
+    const regionDistrict = data.filter((c) => c.region === region);
+    const districts = regionDistrict.map((d) => d.district);
+    return districts;
+  };
 
   const onSubmit = (data) => {
-    console.log("Parcel Data:", data);
+    const isDocument = data.parcelType === "document";
+    const isSameDistrict = data.senderRegions === data.ReceiverRegions;
+    const parcelWeight = parseFloat(data.parcelWeight);
+    let cost = 0;
+    if (isDocument) {
+      cost = isSameDistrict ? 60 : 80;
+    } else {
+      if (parcelWeight < 3) {
+        cost = isSameDistrict ? 110 : 150;
+      } else {
+        const minCharge = isSameDistrict ? 120 : 150;
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameDistrict
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge;
+      }
+    }
+    console.log("cost", cost);
+    Swal.fire({
+      title: "Are you Confirm?",
+      text: `You won't be able to revert this ${cost}!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes,Confirm  it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //save post mdb parcel info
+        axiosSecure.post("/parcels", data).then((res) => {
+          console.log(res.data);
+        });
+
+        // Swal.fire({
+        //   title: "parcelAdd",
+        //   text: "Your file has been add.",
+        //   icon: "success",
+        // });
+      }
+    });
   };
   return (
     <div>
@@ -83,18 +139,33 @@ const SendParcel = () => {
               {...register("sanderAddress", { required: true })}
               className="input input-bordered w-full mb-3"
             />
-            <input
-              type="text"
-              name="sanderDistrict"
-              placeholder="Your District"
-              {...register("sanderAddress", { required: true })}
-              className="input input-bordered w-full mb-3"
-            />
+            {/* Sender Regions */}
+            <select
+              defaultValue="Server Regions"
+              {...register("senderRegions")}
+              className="select select-neutral w-full mb-2"
+            >
+              <option disabled={true}>Server Regions</option>
+              {regions.map((r, i) => (
+                <option key={i}>{r}</option>
+              ))}
+            </select>
+            {/* Sender districts */}
+            <select
+              defaultValue="Server districts"
+              {...register("senderDistricts")}
+              className="select select-neutral w-full mb-2"
+            >
+              <option disabled={true}>Server districts</option>
+              {districtByRegions(senderRegions).map((r, i) => (
+                <option key={i}>{r}</option>
+              ))}
+            </select>
 
             <textarea
               placeholder="Pickup Instruction"
               name="senderText"
-              {...register("senderText", { required: true })}
+              {...register("senderInstruction", { required: true })}
               className="textarea textarea-bordered w-full"
               rows="3"
             ></textarea>
@@ -127,15 +198,28 @@ const SendParcel = () => {
               {...register("receiverAddress", { required: true })}
               className="input input-bordered w-full mb-3"
             />
-            {/* receiver District */}
-            <input
-              type="text"
-              placeholder="Your District"
-              name="receiverDistrict"
-              {...register("receiverDistrict", { required: true })}
-              className="input input-bordered w-full mb-3"
-            />
-
+            {/* Receiver Regions */}
+            <select
+              defaultValue="Receiver Regions"
+              {...register("ReceiverRegions")}
+              className="select select-neutral w-full mb-2"
+            >
+              <option disabled={true}>Receiver Regions</option>
+              {regions.map((r, i) => (
+                <option key={i}>{r}</option>
+              ))}
+            </select>
+            {/* Receiver districts */}
+            <select
+              defaultValue="Receiver districts"
+              {...register("ReceiverDistricts")}
+              className="select select-neutral w-full mb-2"
+            >
+              <option disabled={true}>Receiver districts</option>
+              {districtByRegions(ReceiverRegions).map((r, i) => (
+                <option key={i}>{r}</option>
+              ))}
+            </select>
             <textarea
               placeholder="Delivery Instruction"
               name="receiverInstruction"
