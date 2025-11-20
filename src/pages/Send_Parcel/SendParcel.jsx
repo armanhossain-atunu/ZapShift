@@ -115,7 +115,7 @@ const SendParcel = () => {
           {/* Sender Details */}
           <div>
             <h2 className="text-lg font-semibold mb-3">Sender Details</h2>
-
+            {/* Sender Name */}
             <input
               type="text"
               name="senderName"
@@ -129,6 +129,14 @@ const SendParcel = () => {
               name="senderPhone"
               placeholder="Sender Phone No"
               {...register("senderPhone", { required: true })}
+              className="input input-bordered w-full mb-3"
+            />
+            {/* Sander Email */}
+            <input
+              type="text"
+              name="senderEmail"
+              placeholder="Sender Email"
+              {...register("senderEmail", { required: true })}
               className="input input-bordered w-full mb-3"
             />
             {/* Sander Address */}
@@ -174,7 +182,7 @@ const SendParcel = () => {
           {/* Receiver Details */}
           <div>
             <h2 className="text-lg font-semibold mb-3">Receiver Details</h2>
-
+            {/* Receiver Name */}
             <input
               type="text"
               name="receiverName"
@@ -182,7 +190,7 @@ const SendParcel = () => {
               placeholder="Receiver Name"
               className="input input-bordered w-full mb-3"
             />
-
+            {/* Receiver Phone */}
             <input
               type="text"
               placeholder="Receiver Contact No"
@@ -190,7 +198,15 @@ const SendParcel = () => {
               {...register("receiverPhone", { required: true })}
               className="input input-bordered w-full mb-3"
             />
-
+            {/* Receiver Email */}
+            <input
+              type="text"
+              name="receiverEmail"
+              placeholder="Receiver Email"
+              {...register("receiverEmail", { required: true })}
+              className="input input-bordered w-full mb-3"
+            />
+            {/* Receiver Address */}
             <input
               type="text"
               placeholder="Receiver Address"
@@ -220,6 +236,7 @@ const SendParcel = () => {
                 <option key={i}>{r}</option>
               ))}
             </select>
+            {/* Delivery Instruction */}
             <textarea
               placeholder="Delivery Instruction"
               name="receiverInstruction"

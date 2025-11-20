@@ -8,6 +8,8 @@ import Signup from "../pages/Signup/Signup";
 import PrivetRouter from "../Contexts/PrivetRouter";
 import Rider from "../pages/Rider/Rider";
 import SendParcel from "../pages/Send_Parcel/SendParcel";
+import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +56,20 @@ export const router = createBrowserRouter([
       {
         path: "/auth/signup",
         element: <Signup></Signup>,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivetRouter>
+        <DashboardLayout></DashboardLayout>
+      </PrivetRouter>
+    ),
+    children: [
+      {
+        path: "my-parcels",
+        Component: MyParcels,
       },
     ],
   },
