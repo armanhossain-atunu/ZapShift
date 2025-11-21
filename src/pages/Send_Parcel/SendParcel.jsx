@@ -6,7 +6,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 
 const SendParcel = () => {
-  const { user}=useAuth()
+  const { user } = useAuth();
   const data = useLoaderData();
   const {
     register,
@@ -46,6 +46,7 @@ const SendParcel = () => {
       }
     }
     console.log("cost", cost);
+    data.cost = cost;
     Swal.fire({
       title: "Are you Confirm?",
       text: `You won't be able to revert this ${cost}!`,

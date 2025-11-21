@@ -29,7 +29,7 @@ const DashboardLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4">Navbar Title</div>
+          <div className="px-4">Zap Shift Dashboard</div>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
@@ -75,11 +75,10 @@ const DashboardLayout = () => {
                 data-tip="My Parcels"
               >
                 {/* Home icon */}
-             <p>🚚</p>
+                <p>🚚</p>
                 <span className="is-drawer-close:hidden">My Parcels</span>
               </Link>
             </li>
-
 
             {/* List item */}
             <li>
